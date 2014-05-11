@@ -291,6 +291,14 @@
         }
 
         CFHTTPMessageRef message = CFHTTPMessageCreateRequest(NULL, (CFStringRef)@"GET", (__bridge CFURLRef)self->currentUrl, kCFHTTPVersion1_1);
+        
+        CFHTTPMessageAddAuthentication(message,	// request
+                                       nil,	// authenticationFailureResponse
+                                       (CFStringRef)@"USERNAME",
+                                       (CFStringRef)@"PASSWORD",
+                                       kCFHTTPAuthenticationSchemeBasic,
+                                       FALSE);
+
 
         if (seekStart > 0)
         {
@@ -344,7 +352,7 @@
         [self reregisterForEvents];
         
 		self->httpStatusCode = 0;
-		
+        
         // Open
 
         if (!CFReadStreamOpen(stream))
